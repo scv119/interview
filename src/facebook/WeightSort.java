@@ -13,47 +13,51 @@ minimum cost. The only valid operation are:
 using dp to solve this problem
 */
 
-
+//TODO
 import java.util.Arrays;
 
-public class WeightedSort {
+public class WeightSort {
     public static int solve(int arr[]) {
-        int[] sorted = arr.clone();
-        int len = arr.length;
+        if(arr == null || arr.length == 1)
+            return 0;
 
+        int[] sorted = arr.clone();
         Arrays.sort(sorted);
 
+        int len = arr.length;
         int dp[][] = new int[2][len + 1];
         int idx = 0;
 
-        for(int i = 0 ; i < len + 1; i ++ ) {
+        for(int i = 0 ; i <= len ; i ++) {
             if(i < len && sorted[i] <= arr[len - 1])
-                dp[idx][i] = 0;
+                dp[idx][i] = arr[len - 1] - sorted[i];
             else
                 dp[idx][i] = arr[len - 1];
         }
 
-        for(int j = len - 2; j >= 0 ; j -- ) {
-            for(int i = 0 ; i < len + 1; i ++ ) {
-                if(i < len && sorted[i] <= arr[j])
-                    dp[idx^1][i] = arr[j] - sorted[i] + dp[idx][i];
+        for(int j = len - 2; j >= 0; j --) {
+            int min = Integer.MAX_VALUE;
+            for(int i = len; i >= 0; i --) {
+                min = Math.min(min, dp[idx][i]);
+                if( i == len || sorted[i] > arr[j])
+                    dp[idx^1][i] = min + arr[j];
                 else
-                    dp[idx^1][i] = arr[j] + dp[idx][i];
+                    dp[idx^1][i] = min + arr[j] - sorted[i];
             }
             idx = idx ^ 1;
         }
 
         int ret = Integer.MAX_VALUE;
 
-        for(int i = 0; i < len + 1; i ++)
+        for(int i = 0; i <= len; i ++) {
             ret = Math.min(ret, dp[idx][i]);
+        }
 
         return ret;
-
     }
 
     public static void main(String args[]) {
-        System.out.println(solve(new int[]{1, 2, 3, 4, 5}));
+        System.out.println(solve(new int[]{6, 5, 6, 2}));
         System.out.println(solve(new int[]{1, 2, 3, 5, 4}));
     }
 }
