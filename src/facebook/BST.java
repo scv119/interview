@@ -15,10 +15,6 @@ BST : is bst?
       in order next
 */
 
-/*
-BST : is bst?
-      in order next
-*/
 
 public class BST {
     public static class Node {
@@ -31,25 +27,23 @@ public class BST {
         int[] ref = new int[1];
         if(root == null)
             return true;
-        ref[0] = root.value;
+        ref[0] = Integer.MIN_VALUE;
         return isBST(root, ref);
     }
 
     private static boolean isBST(Node root, int[] ref) {
-        int tmp = ref[0];
 
         if(root.lchild != null) {
-            if(root.lchild.value > tmp)
-                return false;
-            ref[0] = root.lchild.value;
             if(!isBST(root.lchild, ref))
             return false;
         }
 
+        if(root.value < ref[0])
+            return false;
+
+        ref[0] = root.value;
+
         if(root.rchild != null) {
-            if(root.rchild.value < tmp)
-                return false;
-            ref[0] = root.rchild.value;
             if(!isBST(root.rchild, ref))
             return false;
         }
