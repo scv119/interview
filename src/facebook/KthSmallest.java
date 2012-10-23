@@ -35,23 +35,11 @@ public class KthSmallest {
 
         if (k == 1)
             return Math.min(arr1[start1], arr2[start2]);
-        else if (len1 + len2 < 5) {
-            int len = len1 + len2;
-            int tmp[] = new int[len];
-            int j = 0;
-            for(int i = 0; i < len1; i ++)
-                tmp[j++] = arr1[start1 + i];
-            for(int i = 0; i < len2; i ++)
-                tmp[j++] = arr2[start2 + i];
-            Arrays.sort(tmp);
-            return tmp[k-1];
-        }
         else if(len1 == 1) {
             return solve(arr2, start2, len2, arr1[start1], k);
         } else if(len2 == 1) {
             return solve(arr1, start1, len1, arr2[start2], k);
         }
-
 
         int pivot1 = 0;
         int pivot2 = 0;
