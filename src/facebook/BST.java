@@ -112,6 +112,32 @@ public class BST {
         }
     }
 
+    public static Node toDoubleLinkedList(Node root) {
+        Node[] head = new Node[1];
+        Node[] pre  = new Node[1];
+        solve(root, head, pre);
+        head[0].lchild.rchild = head[0];
+        return head[0];
+    }
+
+    private static void solve(Node root, Node head[], Node pre[]) {
+        if(root.lchild != null)
+            solve(root.lchild, head, pre);
+
+        if(pre[0] != null) {
+            pre[0].rchild = root;
+            root.lchild = pre[0];
+        }
+        else
+            head[0] = root;
+        head[0].lchild = root;
+        pre[0] = root;
+
+        if(root.rchild != null)
+            solve(root.rchild, head, pre);
+    }
+
+
     public static void main(String args[]) {
         Node root = new Node();
         root.value = 5;
@@ -120,9 +146,18 @@ public class BST {
                 add(root, i);
         }
         int value = 0;
-        for(int i = 0; i < 10; i ++ ) {
-            value = next(root, value);
-            System.out.println(value);
+//        for(int i = 0; i < 10; i ++ ) {
+//            value = next(root, value);
+//            System.out.println(value);
+//        }
+        Node head = toDoubleLinkedList(root);
+        for(int i = 0; i < 20 ; i ++) {
+            head = head.lchild;
+            System.out.println(head.value);
+        }
+        for(int i = 0; i < 20 ; i ++) {
+            head = head.rchild;
+            System.out.println(head.value);
         }
     }
 }
