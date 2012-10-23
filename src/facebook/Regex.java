@@ -62,11 +62,11 @@ public class Regex {
 
     }
 
-    public static void main(String args[]) {
-        Regex rg = new Regex("h*e*l*o*");
-        System.out.println(rg.match("h"));
-        System.out.println(rg.match("helllo"));
-        System.out.println(rg.match("helll"));
-        System.out.println(rg.match("hel"));
-    }
+//    public static void main(String args[]) {
+//        WildCharMatch rg = new WildCharMatch("h*e*l*o*");
+//        System.out.println(rg.match("h"));
+//        System.out.println(rg.match("helllo"));
+//        System.out.println(rg.match("helll"));
+//        System.out.println(rg.match("hel"));
+//    }
 }
