@@ -17,6 +17,7 @@ BST : is bst?
 
 
 public class BST {
+
     public static class Node {
         int value;
         Node lchild;
