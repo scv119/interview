@@ -56,6 +56,42 @@ public class NextPermutation {
         return ret;
     }
 
+        public static void nextPermutation(int[] num) {
+            int idx1 = -1;
+            for(int i = num.length - 2; i >= 0; i --) {
+                if(num[i] < num[i+1]) {
+                    idx1 = i;
+                    break;
+                }
+            }
+
+            if(idx1 == -1)
+                return;
+
+            int idx2 = -1;
+            for(int j = num.length -1; j > idx1; j --) {
+                if(num[j] > num[idx1]) {
+                    idx2 = j;
+                    break;
+                }
+            }
+
+            int tmp = num[idx1];
+            num[idx1] = num[idx2];
+            num[idx2] = tmp;
+
+            idx1 ++;
+            idx2 = num.length - 1;
+            while(idx1 < idx2) {
+                tmp = num[idx1];
+                num[idx1] = num[idx2];
+                num[idx2] = tmp;
+                idx1 ++;
+                idx2 --;
+            }
+
+    }
+
     static void showResult(int i) {
         System.out.print(i + " : ");
         try{
@@ -66,9 +102,6 @@ public class NextPermutation {
     }
 
     public static void main(String args[]) {
-        showResult(0);
-        showResult(33332211);
-        showResult(56234);
-        showResult(1033320);
+        nextPermutation(new int[]{1,2});
     }
 }
