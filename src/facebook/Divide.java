@@ -9,9 +9,9 @@ package facebook;
  */
 public class Divide {
 
-    public static int divide ( int intA, int intB) {
-        long a = intA;
-        long b = intB;
+    public static int divide(int dividend, int divisor) {
+        long a = dividend;
+        long b = divisor;
         long sign = 1;
 
         if( b == 0 )
@@ -19,9 +19,11 @@ public class Divide {
 
         if ( a > 0 && b < 0 || a < 0 && b > 0) {
             sign = -1;
-            a = Math.abs(a);
-            b = Math.abs(b);
+
         }
+
+        a = a >= 0 ? a : -a;
+        b = b >  0 ? b : -b;
 
         long ret = 0;
         long base = 1;
@@ -43,22 +45,23 @@ public class Divide {
             }
         }
 
-
-        return (int)(ret * sign);
-
+        if(sign == -1)
+            ret = -ret;
+        return (int)(ret);
 
     }
 
     public static void main(String args[]) {
-        for(int i = 1; i < 10000; i ++)
-        {
-            int x = (int)(Math.random() * (Integer.MAX_VALUE - 1) + 1 );
-            int y = (int)(Math.random() * (Integer.MAX_VALUE - 1) + 1 );
-
-            if(divide(x, y)  != (x/y)) {
-                System.out.println(x + " " + y);
-            }
-        }
+//        for(int i = 1; i < 10000; i ++)
+//        {
+//            int x = (int)(Math.random() * (Integer.MAX_VALUE - 1) + 1 );
+//            int y = (int)(Math.random() * (Integer.MAX_VALUE - 1) + 1 );
+//
+//            if(divide(x, y)  != (x/y)) {
+//                System.out.println(x + " " + y);
+//            }
+//        }
+        divide(-1, -1);
     }
 
 }
