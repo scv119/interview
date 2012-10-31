@@ -1,5 +1,7 @@
 package leetcode;
 
+import java.util.Stack;
+
 /**
  * Created with IntelliJ IDEA.
  * User: shenchen
@@ -18,6 +20,8 @@ public class MinimumWindowSubString {
             if(dest[value] == 1)
                 num ++;
         }
+
+        Stack stack = new Stack();
 
         int minLen = Integer.MAX_VALUE; int minS = 0; int minE = 0;
         int start = -1;

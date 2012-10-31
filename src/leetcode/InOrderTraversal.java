@@ -1,8 +1,6 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -90,10 +88,7 @@ public class InOrderTraversal {
         while (root != null || stack.size() > 0) {
             if(root != null) {
                 stack.push(root);
-                if (root.left != null)
-                    root = root.left;
-                else
-                    root = null;
+                root = root.left;
             } else {
                 root = stack.pop();
                 ret.add(root.val);
@@ -101,5 +96,63 @@ public class InOrderTraversal {
             }
         }
         return ret;
+    }
+
+    public ArrayList<Integer> postOrderTraversal(TreeNode root) {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        TreeNode pre = null;
+
+        while (root != null || stack.size() > 0) {
+            if (root != null) {
+                stack.push(root);
+                root = root.left;
+            } else {
+                root = stack.pop();
+                if ( root.right == null || pre != null && pre == root.right ) {
+                    ret.add(root.val);
+                    pre  = root;
+                    root = null;
+                } else {
+                    stack.push(root);
+                    root = root.right;
+                }
+            }
+        }
+        return ret;
+    }
+
+    public void add(TreeNode node, int value) {
+        if (value < node.val) {
+            if (node.left != null)
+                add(node.left, value);
+            else
+                node.left = new TreeNode(value);
+        } else {
+            if (node.right != null)
+                add(node.right, value);
+            else
+                node.right = new TreeNode(value);
+        }
+    }
+
+    public static void main(String args[]) {
+        InOrderTraversal iot = new InOrderTraversal();
+        TreeNode root = new TreeNode(5);
+        for(int i = 1 ;i < 11; i ++) {
+            if(i != 5) {
+                iot.add(root, i);
+            }
+        }
+
+        for(Integer i : iot.inorderTraversal1(root)) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+        for(Integer i : iot.postOrderTraversal(root)) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
     }
 }
