@@ -45,4 +45,32 @@ public class Node {
 
         return head;
     }
+
+    public static void main(String args[]) {
+        Node node = new Node();
+        Node head = node;
+        node.value = 1;
+        for(int i = 0; i < 3; i ++) {
+            Node next = new Node();
+            next.value = i + 2;
+            node.next = next;
+            node = next;
+        }
+
+        Node ptr = head;
+        while(ptr != null) {
+            System.out.print(ptr.value + " ");
+            ptr = ptr.next;
+        }
+        System.out.println();
+
+        ptr = reverse(head);
+
+        while(ptr != null) {
+            System.out.print(ptr.value + " ");
+            ptr = ptr.next;
+        }
+        System.out.println();
+
+    }
 }

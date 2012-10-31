@@ -2,6 +2,7 @@ package leetcode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created with IntelliJ IDEA.
@@ -80,4 +81,25 @@ public class InOrderTraversal {
 
     }
 
+    public ArrayList<Integer> inorderTraversal1(TreeNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+
+        while (root != null || stack.size() > 0) {
+            if(root != null) {
+                stack.push(root);
+                if (root.left != null)
+                    root = root.left;
+                else
+                    root = null;
+            } else {
+                root = stack.pop();
+                ret.add(root.val);
+                root = root.right;
+            }
+        }
+        return ret;
+    }
 }
