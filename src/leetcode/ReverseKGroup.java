@@ -9,63 +9,37 @@ package leetcode;
  */
 public class ReverseKGroup {
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode pre = null;
-        ListNode next = null;
-        ListNode start = null;
-        ListNode end   = null;
         ListNode ret = null;
         ListNode cur = head;
-
-        if (k <= 1 || head == null)
-            return head;
-
+        ListNode pre = null;
 
         while (cur != null) {
-            pre   = end;
-            start = cur;
-            for (int i = 1; i < k; i ++) {
-                cur = cur.next;
-                if (cur == null)
+            ListNode cur1 = cur.next;
+            ListNode next = cur.next;
+            cur.next = null;
+            ListNode end = cur;
+            int i;
+            for (i = 1; i < k; i ++) {
+                if (cur1 == null)
                     break;
+                ListNode tmp = cur1.next;
+                next = tmp;
+                cur1.next = cur;
+                cur = cur1;
+                cur1 = tmp;
             }
 
-            if (cur == null)
-                break;
-
-            end = cur;
-            next = end.next;
-            end.next = null;
-
-            ListNode p1 = null;
-            ListNode p2 = null;
-            ListNode p3 = null;
-
-            p1 = start;
-            p2 = start.next;
-            p1.next = null;
-            end = p1;
-
-            while (p2 != null) {
-                p3 = p2.next;
-                p2.next = p1;
-                p1 = p2;
-                p2 = p3;
-                start = p1;
-            }
-
-            if (pre == null) {
-                ret = start;
-            } else {
-                pre.next = start;
-            }
-            end.next = next;
-            cur = next;
+            if (i == k) {
+                if (ret == null)
+                    ret = cur;
+                else
+                    pre.next = cur;
+                pre = end;
+                cur = next;
+            } else
+                k = i;
         }
 
-        if (ret == null)
-            ret = head;
-
         return ret;
-
     }
 }
