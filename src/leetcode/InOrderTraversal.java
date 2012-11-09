@@ -122,6 +122,21 @@ public class InOrderTraversal {
         return ret;
     }
 
+    public void preOrder(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+
+        if (root != null)
+            stack.add(root);
+
+        while (stack.size() > 0) {
+            root = stack.pop();
+            if (root.right != null) stack.push(root.right);
+            if (root.left  != null) stack.push(root.left);
+
+            System.out.println(root.val);
+        }
+    }
+
     public void add(TreeNode node, int value) {
         if (value < node.val) {
             if (node.left != null)
