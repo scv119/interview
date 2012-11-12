@@ -21,18 +21,14 @@ public class SortColors {
             if (v == 0)
                 p0 ++;
             else if (v == 1) {
-                swap(A, p0, p1);
-                p1 --;
+                swap(A, p0, p1--);
             } else {
                 if (p0 == p1) {
-                    swap(A, p0, p2);
-                    p2 --;
+                    swap(A, p0, p2--);
                     p1 --;
                 } else {
-                    swap(A, p1, p2);
-                    p1 --;
-                    swap(A, p0, p2);
-                    p2 --;
+                    swap(A, p1--, p2);
+                    swap(A, p0, p2--);
                 }
             }
         }
