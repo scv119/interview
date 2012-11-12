@@ -8,33 +8,31 @@ package leetcode;
  * To change this template use File | Settings | File Templates.
  */
 public class SwapPairs {
-    public ListNode swapPairs(ListNode head) {
-        ListNode ret = null;
-        ListNode pre = null;
-        ListNode cur = null;
+    public class Solution {
+        public ListNode swapPairs(ListNode head) {
 
-        cur = head;
+            ListNode cur = head;
+            head = null;
+            ListNode pre = null;
+            while (cur != null && cur.next != null) {
+                ListNode next = cur.next.next;
+                cur.next.next = cur;
 
-        while (cur != null) {
-            ListNode next = cur.next;
-            if (next == null)
-                break;
+                if (pre == null)
+                    head = cur.next;
+                else
+                    pre.next = cur.next;
 
-            cur.next = next.next;
-            next.next = cur;
+                cur.next = next;
 
-            if (pre != null) {
-                pre.next = next;
-            } else
-                ret = next;
+                pre = cur;
+                cur = next;
+            }
 
-            pre = cur;
-            cur = cur.next;
+            if (head == null)
+                head = cur;
+
+            return head;
         }
-
-        if (ret == null)
-            ret = head;
-
-        return ret;
     }
 }
