@@ -26,8 +26,8 @@ public class Template implements Runnable {
                 in = new BufferedReader(new InputStreamReader(System.in));
                 out = new PrintWriter(System.out);
             } else {
-                in = new BufferedReader(new FileReader("input.txt"));
-                out = new PrintWriter("output.txt");
+                in = new BufferedReader(new FileReader("/Users/shenchen/input.txt"));
+                out = new PrintWriter("/Users/shenchen/output.txt");
             }
             Locale.setDefault(Locale.US);
             solve();
