@@ -72,6 +72,7 @@ public class Graham {
         list.add(new Point(1, 1));
         list.add(new Point(2,2));
         list.add(new Point(1, 0));
+        list.add(new Point(0, 2));
         list.add(new Point(0, 1));
         list = g.solve(list);
         for (Point point : list) {

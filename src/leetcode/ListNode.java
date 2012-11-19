@@ -8,7 +8,7 @@ package leetcode;
  * To change this template use File | Settings | File Templates.
  */
 public class ListNode {
-    int val;
-    ListNode next;
-    ListNode (int x) {val = x; next = null;}
+    public int val;
+    public ListNode next;
+    public ListNode (int x) {val = x; next = null;}
 }
