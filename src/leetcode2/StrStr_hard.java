@@ -9,34 +9,21 @@ package leetcode2;
  */
 public class StrStr_hard {
     public String strStr(String s, String p) {
-        if (s == null || p == null || s.length() < p.length())
+        if (s == null || p == null)
             return null;
 
         if (p.equals(""))
             return s;
 
-        int ret = -1;
-
         for (int i = 0; i < s.length() - (p.length() - 1); i ++) {
-            for (int j = 0; j <= p.length() && i + j <= s.length(); j ++) {
-                if (j == p.length()) {
-                    ret = i;
-                    break;
-                }
-
-                if (i + j == s.length())
-                    break;
-
+            for (int j = 0; j <= p.length(); j ++) {
+                if (j == p.length())
+                    return s.substring(i);
                 if (s.charAt(i + j) != p.charAt(j))
                     break;
             }
-
-            if (ret != -1)
-                break;
         }
 
-        if (ret == -1)
-            return null;
-        return s.substring(ret);
+        return null;
     }
 }
