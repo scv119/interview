@@ -1,8 +1,6 @@
 package crack;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Graph{
     public boolean topologicSort_hard(int g[][], List<Integer> ret) {
@@ -32,15 +30,15 @@ public class Graph{
     }
 
     public static void main(String args[]) {
-//        List<Integer> ret = new ArrayList<Integer>();
-//        ret.clear();
+        List<Integer> ret = new ArrayList<Integer>();
+        ret.clear();
         Graph g = new Graph();
-//        boolean ans = g.topologicSort_hard(new int[][]{new int[]{0, 1, 1}, new int[]{0, 0, 1}, new int[]{0, 0, 0}}, ret);
-//        System.out.println(ans);
-//        if (ans)
-//            System.out.println(Arrays.deepToString(ret.toArray()));
-        int[] ret = g.dijkstra_hard(new int[][]{new int[]{0, 10, Integer.MAX_VALUE}, new int[]{1, 0, Integer.MAX_VALUE}, new int[]{Integer.MAX_VALUE, 1, 0}}, 0);
-        for(int x : ret)
+        boolean ans = g.topologicSort_hard(new int[][]{new int[]{0, 1, 1}, new int[]{0, 0, 1}, new int[]{0, 0, 0}}, ret);
+        System.out.println(ans);
+        if (ans)
+            System.out.println(Arrays.deepToString(ret.toArray()));
+        int[] ret1 = g.dijkstra(new int[][]{new int[]{0, 10, Integer.MAX_VALUE}, new int[]{1, 0, Integer.MAX_VALUE}, new int[]{Integer.MAX_VALUE, 1, 0}}, 1);
+        for(int x : ret1)
         System.out.print(x + " ");
     }
 
@@ -60,36 +58,53 @@ public class Graph{
         return ret;
     }
 
-    public int[] dijkstra_hard(int[][] g, int start) {
+    class Item implements Comparable {
+        int id;
+        int dis;
+        boolean visit = false;
+
+        Item(int id, int dis) {this.id = id; this.dis = dis;}
+
+        @Override
+        public int compareTo(Object o) {
+            Item item = (Item)o;
+            return this.dis - item.dis;
+        }
+    }
+
+    public int[] dijkstra(int[][] g, int id) {
         int len = g.length;
-        int []ret = new int[len];
-        boolean v[] = new boolean[len];
-        Arrays.fill(v, false);
-        Arrays.fill(ret, Integer.MAX_VALUE);
-        ret[start]   = 0;
-        TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
-        for (int i = 0; i < len; i ++)
-            map.put(i, ret[i]);
-        while (map.size() > 0) {
-            int id = map.firstKey();
-            int val = map.get(id);
-            if (val == Integer.MAX_VALUE)
+        Item items[] = new Item[len];
+        TreeSet<Item> set = new TreeSet<Item>();
+        for (int i = 0; i < len; i ++) {
+            items[i] = new Item(i, Integer.MAX_VALUE);
+            if (i == id)
+                items[i].dis = 0;
+            set.add(items[i]);
+        }
+
+        while (set.size() > 0) {
+            Item item = set.first();
+            set.remove(item);
+            item.visit = true;
+            if (item.dis == Integer.MAX_VALUE)
                 break;
-            map.remove(id);
-            v[id] = true;
             for (int i = 0; i < len; i ++) {
-                if (g[id][i] != Integer.MAX_VALUE && ret[i] > val + g[id][i]) {
-                    ret[i] = val + g[id][i];
-                    if (!v[i]) {
-                        map.remove(i);
-                        map.put(i, ret[i]);
+                if (g[item.id][i] != Integer.MAX_VALUE && items[i].dis > g[item.id][i] + item.dis) {
+                    items[i].dis = g[item.id][i] + item.dis;
+                    if (items[i].visit == false) {
+                        set.remove(items[i]);
+                        set.add(items[i]);
                     }
                 }
             }
         }
+
+        int ret[] = new int[len];
+        for (int i = 0; i < len; i ++)
+            ret[i] = items[i].dis;
         return ret;
     }
-
 
 
 }
