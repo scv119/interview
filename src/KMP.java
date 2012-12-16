@@ -1,66 +1,76 @@
+import java.util.*;
+
 public class KMP {
     public String match(String s, String p) {
-        if (p == null || s == null)
+        if (s == null || p == null)
             return null;
+
         if (p.equals(""))
             return s;
-        int []next = buildNext(p);
+
+        char[] sArr = s.toCharArray();
+        char[] pArr = p.toCharArray();
+        int[] next = build(pArr);
+        System.out.println(Arrays.toString(next));
+        int sLen = sArr.length;
+        int pLen = pArr.length;
+        int sIdx = 0;
+        int pIdx = 0;
         int ret = -1;
-        int j  = 0;
-        for (int i = 0; i < s.length(); i ++) {
-            if (j == p.length()) {
-                ret = i - p.length();
+        
+        while (true) {
+            if (pIdx == pLen) {
+                ret = sIdx - pLen;
                 break;
             }
-            if (s.charAt(i) == p.charAt(j))
-                j ++;
-            else {
-                int pre = j - 1;
-                while (true) {
-                    if (pre == -1 || next[pre] == 0) {
-                        j = 0;
-                        i --;
-                        break;
-                    }
-                    if (p.charAt(next[pre]) == s.charAt(i)) {
-                        j = next[pre] + 1;            
-                        break;
-                    } else {
-                        pre = next[pre] - 1;
-                    }
-                }
+            else if (sIdx == sLen){
+                ret = -1;
+                break;
+            }
+            else if (sArr[sIdx] == pArr[pIdx]) {
+                sIdx ++;
+                pIdx ++;
+            } else if (pIdx == 0) {
+                sIdx ++;
+            } else {
+                pIdx = next[pIdx - 1];
             }
         }
-
         if (ret == -1)
             return null;
+        System.out.println(s.substring(ret));
         return s.substring(ret);
     }
 
-    int[] buildNext(String p) {
-        int len = p.length();
-        int[] next = new int[len];
-        for (int i = 0; i < len; i ++) {
-            if (i == 0)
-                next[i] = 0;
+    private int[] build(char[] arr) {
+        int len = arr.length;
+        int dfa[] = new int[len];
+
+        for (int i = 1; i < len; i ++) {
+            if (dfa[i - 1] == 0)
+                dfa[i] = arr[i] == arr[0] ? 1 : 0;
             else {
                 int pre = i - 1;
-                while (next[pre] != 0) {
-                    if (p.charAt(next[pre]) == p.charAt(i))
+                while (true) {
+                    if (pre == 0 || dfa[pre] == 0) {
+                        dfa[i] = arr[i] == arr[0] ? 1 : 0;
                         break;
-                    pre = next[pre] - 1;
+                    } else if (arr[dfa[pre]] == arr[i]) {
+                        dfa[i] = dfa[pre] + 1;
+                        break;
+                    } else {
+                        pre = dfa[pre] - 1;
+                    }
                 }
-                if (next[pre] == 0)
-                    next[i] = 0;
-                else
-                    next[i] = next[pre] + 1; 
+                }
             }
-        }
-        return next;
+        return dfa;
     }
 
     public static void main(String args[]) {
         KMP kmp = new KMP();
-        System.out.println(kmp.match("cbcbccbcbaa", "cbccbcb"));
+        kmp.match("abcabc", "abc");
+        kmp.match("cccacacb", "cacacb");
+        kmp.match("aaaddaaaaaaad", "aaaaaa");
     }
 }

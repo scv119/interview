@@ -9,14 +9,14 @@ import java.io.*;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-public class Template implements Runnable {
+public class PointsOnLine implements Runnable {
 
     BufferedReader in;
     PrintWriter out;
     StringTokenizer tok = new StringTokenizer("");
 
     public static void main(String[] args) {
-        new Template().run();
+        new PointsOnLine().run();
     }
 
     public void run() {
@@ -60,6 +60,24 @@ public class Template implements Runnable {
         return Double.parseDouble(readString());
     }
 
-    void solve() throws IOException {};
+    void solve() throws IOException {
+        int n = readInt();
+        long d = readLong();
+        long ret = 0;
+        long arr[] = new long[n];
+        for (int i = 0; i < n; i ++)
+            arr[i] = readLong();
+        int end = 0;
+        for (int start = 0; start < n - 2; start ++) {
+            end = Math.max(end, start + 2);
+            while (end < n - 1 && arr[end + 1] - arr[start] <= d)
+                end ++;
+            if (arr[end] - arr[start] <= d) {
+                long tmp = end - start - 1;
+                ret += (1 + tmp) * tmp / 2;
+            }
+        }
+        out.println(ret);
+    };
 
 }
