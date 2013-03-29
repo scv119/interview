@@ -9,14 +9,14 @@ import java.io.*;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-public class Template implements Runnable {
+public class RoboFootballer implements Runnable {
 
     BufferedReader in;
     PrintWriter out;
     StringTokenizer tok = new StringTokenizer("");
 
     public static void main(String[] args) {
-        new Template().run();
+        new RoboFootballer().run();
     }
 
     public void run() {
@@ -60,6 +60,35 @@ public class Template implements Runnable {
         return Double.parseDouble(readString());
     }
 
-    void solve() throws IOException {};
+    final double esp = 0.00000001d;
+    void solve() throws IOException{
+
+        double y1 = readInt();
+        double y2 = readInt();
+        double yw = readInt();
+        double xb = readInt();
+        double yb = readInt();
+        double r = readInt();
+
+        double xc = xb;
+        double yy = yw - r;
+        double yc = yy + (yy - yb);
+
+
+        double dis2 = Math.sqrt(xc * xc + (yc - y2) * (yc - y2));
+        double dis1 = Math.sqrt(xc * xc + (yc - y1) * (yc - y1));
+        double arc2 = Math.atan(xc / (yc - y2)) - Math.asin(r / dis2);
+        double arc1 = Math.atan(xc / (yc - y1) + Math.asin(r/dis1));
+
+        if (arc1 >= (arc2 - esp)) {
+            out.println(-1);
+            return;
+        }
+
+        double ymid = (y1 + y2)/2;
+        double xw  = (yy - ymid) / (yc - ymid) * xc;
+        out.println(xw);
+
+    };
 
 }

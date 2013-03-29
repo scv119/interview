@@ -11,59 +11,67 @@ import java.util.Stack;
  */
 public class MinimumWindowSubString {
     public String minWindow(String S, String T) {
-        int[] dest    = new int[256];
-        int[] count   = new int[256];
-        int   num     = 0;
-        for(int i = 0; i < T.length(); i ++) {
-            int value = T.charAt(i);
-            dest[value] ++;
-            if(dest[value] == 1)
-                num ++;
+        int count[] = new int[256];
+        int dest[] = new int[256];
+        int dsize  = 0;
+        for (int i = 0; i < T.length(); i++) {
+            char c = T.charAt(i);
+            dest[c] = 1;
+            dsize ++;
         }
 
-        Stack stack = new Stack();
+        if (S.equals("") || T.equals(""))
+            return "";
 
-        int minLen = Integer.MAX_VALUE; int minS = 0; int minE = 0;
+        int min = Integer.MAX_VALUE;
+        int mStart = 0;
+        int mEnd   = 0;
+
         int start = -1;
         int end   = 0;
-        int curNum = 0;
+        int size  = 0;
 
-        while(end < S.length()) {
-            int v = S.charAt(end);
-            if(dest[v] > 0) {
-                if(start == -1)
+        while (end < S.length()) {
+            int c = S.charAt(end);
+            if (dest[c] == 1) {
+                if (start == -1)
                     start = end;
-                count[v] ++;
-                if(count[v] == dest[v])
-                    curNum ++;
-                while(curNum == num) {
-                    if(end - start + 1 < minLen) {
-                        minLen = end - start + 1;
-                        minS = start;
-                        minE = end;
-                    }
-                    int next = start;
-                    for(int i = start + 1; i <= end; i ++) {
-                        v = S.charAt(i);
-                        if(dest[v] > 0) {
-                            next = i;
-                            break;
-                        }
-                    }
+                count[c]++;
+                if (count[c] == 1)
+                    size ++;
 
-                    if(next == start)
-                        break;
-                    v = S.charAt(start);
-                    count[v] --;
-                    if(count[v] == dest[v] - 1)
-                        curNum --;
-                    start = next;
+                if (size == dsize) {
+                    while (true) {
+                        if (size == dsize && end - start + 1 < min) {
+                            min = end - start + 1;
+                            mStart = start;
+                            mEnd   = end;
+                        }
+
+                        if (start == end)
+                            break;
+                        if (dest[S.charAt(start)] == 1 && size < dsize)
+                            break;
+                        if (dest[S.charAt(start)] == 1) {
+                            count[S.charAt(start)] --;
+                            if (count[S.charAt(start)] == 0)
+                                size --;
+                        }
+                        start ++;
+                    }
                 }
             }
             end ++;
         }
-        if(minLen == Integer.MAX_VALUE)
+
+        if (min == Integer.MAX_VALUE)
             return "";
-        return S.substring(minS, minE + 1);
+        return S.substring(mStart, mEnd + 1);
+
+    }
+
+    public static void main(String args[]) {
+        MinimumWindowSubString ms = new MinimumWindowSubString();
+        System.out.println(ms.minWindow("aa", "aa"));
     }
 }
